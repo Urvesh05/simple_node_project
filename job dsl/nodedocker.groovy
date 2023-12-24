@@ -7,7 +7,7 @@ job("node js project var 2"){
         }
     }
     wrappers {
-        nodejs('node 18')
+        nodejs('nodejs 16')
             credentialsBinding {
                 usernamePassword('USERNAME_DOC', 'PASS_DOC')
         }
@@ -16,7 +16,7 @@ job("node js project var 2"){
         shell('npm install')
         shell('docker login -u ${USERNAME_DOC} -p ${PASS_DOC}')
         dockerBuildAndPublish {
-            repositoryName('Urvesh05/simple_node_project')
+            repositoryName('simple_node_project')
             tag('${BUILD_NUMBER}')
             registryCredentials('docker-hub')
             forcePull(false)

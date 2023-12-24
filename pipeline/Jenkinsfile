@@ -1,0 +1,29 @@
+///  Scripted pipeline
+
+node {
+    stage('preperation'){
+        echo 'cloning repo'
+        git url:'https://github.com/Urvesh05/simple_node_project.git', branch:'master'
+    }
+    stage('test'){
+        echo 'running test cases'
+        nodejs(nodeJSInstallationName: 'node 16') {
+            sh 'npm i -D'
+            sh 'npm run test'
+                }
+    }
+    stage('build'){
+        echo 'building image'
+        sh 'docker build -t urvesh6500/pipelinedemo:${BUILD_NUMBER} .'
+    }
+    stage('deploy to docker hub'){
+        withCredentials([usernamePassword(credentialsId: 'dockerhubcred', usernameVariable: 'USERNAME_DOC', passwordVariable: 'PASS_DOC')]){
+            sh 'docker login -u${USERNAME_DOC} -p ${PASS_DOC}'
+            sh 'docker image push urvesh6500/pipelinedemo:${BUILD_NUMBER}'
+        }
+    }
+    stage('clenup'){
+        sh 'docker logout'
+    }
+
+}
