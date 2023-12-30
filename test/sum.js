@@ -1,5 +1,5 @@
-const add = ((a, b) => {
-    c = a + b
-    console.log(c)
-    return 1, 2
-})
+function sum(a, b)  {
+    return a + b; 
+   
+}
+module.exports = sum;
